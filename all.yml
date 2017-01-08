@@ -1,0 +1,36 @@
+---
+- name: provision nodes
+  hosts: all
+  become: true
+  become_user: root
+  tasks:
+  - name: install prerequisites
+    include: prerequisites.yml
+
+- name: provision master
+  hosts: master
+  become: true
+  become_user: root
+  tasks:
+  - name: launch kubeadm and register the resultant key
+    shell: kubeadm init --api-advertise-addresses={{ansible_enp0s8.ipv4.address}} | grep 'kubeadm join'
+    register: join_command
+  - debug: var=join_command
+  - name: set fact for master
+    set_fact: join_cmd="{{join_command.stdout}}"
+
+- name: provision nodes
+  hosts: node*
+  become: true
+  become_user: root
+  tasks:
+  - name: launch kubeadm against the master node
+    shell: "{{hostvars['master']['join_cmd']}}"
+
+- name: provision master
+  hosts: master
+  become: true
+  become_user: root
+  tasks:
+  - name: launch kubeadm and register the resultant key
+    shell: kubectl apply -f https://raw.githubusercontent.com/romana/romana/master/containerize/specs/romana-kubeadm.yml
