@@ -24,13 +24,19 @@
   become: true
   become_user: root
   tasks:
+  - name: add route to network interfaces file
+    lineinfile: dest=/etc/network/interfaces regexp='^#VAGRANT-END' insterafter=yes line='post-up route add -net 10.0.0.0 netmask 255.0.0.0 gw {{hostvars['master']['ansible_enp0s8']['ipv4']['address']}}'
+  - name: add route for current run
+    command: "ip route add 10.0.0.0/8 via {{hostvars['master']['ansible_enp0s8']['ipv4']['address']}}"
   - name: launch kubeadm against the master node
     shell: "{{hostvars['master']['join_cmd']}}"
 
 - name: provision master
-  hosts: master
-  become: true
-  become_user: root
-  tasks:
-  - name: launch kubeadm and register the resultant key
-    shell: kubectl apply -f https://raw.githubusercontent.com/romana/romana/master/containerize/specs/romana-kubeadm.yml
+ hosts: master
+ become: true
+ become_user: root
+ tasks:
+ - name: upload tweaked romana deamonset definition for Vagrant/ubuntu
+   copy: src=romana-kubeadm-vagrant.yml dest=/home/ubuntu/romana-kubeadm-vagrant.yml
+ - name: launch kubeadm and register the resultant key
+   shell: kubectl apply -f /home/ubuntu/romana-kubeadm-vagrant.yml
