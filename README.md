@@ -1,4 +1,4 @@
-# A Vagrantfile to deploy a multi-node ansible with kubeadm
+# A Vagrantfile to deploy a multi-node Kubernetes with kubeadm via bash
 
 Vagrantfile supports only ubuntu and virtualbox at the moment
 it's based on the Vagrantfile from the kubernetes git repository.
