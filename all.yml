@@ -13,7 +13,7 @@
   become_user: root
   tasks:
   - name: launch kubeadm and register the resultant key
-    shell: kubeadm init --api-advertise-addresses={{ansible_enp0s8.ipv4.address}} | grep 'kubeadm join'
+    shell: kubeadm init --api-advertise-addresses={{ansible_enp0s8.ipv4.address}} | grep 'kubeadm join' | tee join.txt
     register: join_command
   - debug: var=join_command
   - name: set fact for master
@@ -36,7 +36,5 @@
   become: true
   become_user: root
   tasks:
-  - name: upload tweaked romana deamonset definition for Vagrant/ubuntu
-    copy: src=romana-kubeadm-vagrant.yml dest=/home/ubuntu/romana-kubeadm-vagrant.yml
   - name: launch kubeadm and register the resultant key
-    shell: kubectl apply -f /home/ubuntu/romana-kubeadm-vagrant.yml
+    shell: kubectl apply -f /vagrant/romana-kubeadm-vagrant.yml
