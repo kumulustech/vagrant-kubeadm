@@ -52,9 +52,8 @@ $kube_provider_boxes = {
     }
   },
   :libvirt => {
-    'fedora' => {
-      :box_name => 'kube-fedora23',
-      :box_url => 'https://dl.fedoraproject.org/pub/fedora/linux/releases/23/Cloud/x86_64/Images/Fedora-Cloud-Base-Vagrant-23-20151030.x86_64.vagrant-libvirt.box'
+    'ubuntu' => {
+      :box_name => 'ubuntu/xenial64',
     }
   },
 }
@@ -159,14 +158,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Kubernetes master
   config.vm.define "master" do |c|
     customize_vm c, $vm_master_mem
-    if ENV['KUBE_TEMP'] then
-      script = "#{ENV['KUBE_TEMP']}/master-start.sh"
-      c.vm.provision "shell", run: "always", path: script
-    end
-    config.vm.provision "shell", inline: "apt-get update && apt-get install python -y"
+    c.vm.provision "shell", run: "once", path: "kubeadm-master-ubuntu.sh"
     # config.vm.provision "ansible" do |a|
     #   a.playbook = "master.yml"
     # end
+    c.vm.hostname = 'master'
     c.vm.network "private_network", ip: "#{$master_ip}"
   end
 
@@ -178,17 +174,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       customize_vm node, $vm_node_mem
 
       node_ip = $node_ips[n]
-      if ENV['KUBE_TEMP'] then
-        script = "#{ENV['KUBE_TEMP']}/node-start-#{n}.sh"
-        node.vm.provision "shell", run: "always", path: script
-      end
-      config.vm.provision "shell", inline: "apt-get update && apt-get install python -y"
-      if "#{n}" == "#{$num_node.to_i-1}"
-        config.vm.provision "ansible" do |a|
-          a.playbook = "all.yml"
-          a.limit = "all"
-        end
-      end
+      node.vm.provision "shell", run: "once", path: "kubeadm-node-ubuntu.sh"
+      node.vm.hostname = "node-#{n+1}"
       node.vm.network "private_network", ip: "#{node_ip}"
     end
   end
