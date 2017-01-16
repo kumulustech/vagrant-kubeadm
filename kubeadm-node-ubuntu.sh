@@ -27,9 +27,9 @@ hostname node
 
 # Update routing for Romana
 sudo cat >> /etc/network/interfaces <<EOF
-post-up route add -net 10.0.0.0 netmask 255.0.0.0 gw 192.168.56.10
+up route add -net 10.96.0.0 netmask 255.240.0.0 gw 192.168.56.10
 EOF
-sudo ip route add 10.0.0.0/8 via 192.168.56.10
+sudo ip route add 10.96.0.0/12 via 192.168.56.10
 
 sudo kubeadm join --token=b9e6bb.6746bcc9f8ef8267 192.168.56.10
 
