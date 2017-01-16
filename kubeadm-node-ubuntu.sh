@@ -21,9 +21,6 @@ HOSTNAME=`hostname`
 sudo sed -e "s/^.*${HOSTNAME}.*/${ADDRESS} ${HOSTNAME} ${HOSTNAME}.local/" -i /etc/hosts
 sudo sed -e '/^.*ubuntu-xenial.*/d' -i /etc/hosts
 
-echo "${ADDRESS} node node.local" >> /etc/hosts
-echo node > /etc/hostname
-hostname node
 
 # Update routing for Romana
 sudo cat >> /etc/network/interfaces <<EOF
