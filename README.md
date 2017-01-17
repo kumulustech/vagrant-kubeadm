@@ -16,6 +16,7 @@ the kubernetes environment by logging into the master node
   vagrant ssh master
   kubectl get nodes
 
+Examples for the KUB-100 class are in the example_files directory
 
 ======
  Copyright 2017 Kumulus Technologies
