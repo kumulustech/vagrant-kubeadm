@@ -13,6 +13,7 @@ sudo service docker start
 sudo groupadd docker
 sudo usermod -aG docker ubuntu 
 sudo apt-get install python-pip -y
+sudo apt-get install joe -y
 sudo pip -H install --upgrade pip
 
 #Setup Kubernetes
