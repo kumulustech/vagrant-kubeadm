@@ -14,7 +14,7 @@ sudo groupadd docker
 sudo usermod -aG docker ubuntu 
 sudo apt-get install python-pip -y
 sudo apt-get install joe -y
-sudo pip -H install --upgrade pip
+sudo -H pip install --upgrade pip
 
 #Setup Kubernetes
 
@@ -22,7 +22,7 @@ ADDRESS="$(ip -4 addr show enp0s8 | grep "inet" | head -1 |awk '{print $2}' | cu
 sudo sed -e "s/^.*master.*/${ADDRESS} master master.local/" -i /etc/hosts
 sudo sed -e '/^.*ubuntu-xenial.*/d' -i /etc/hosts
 
-sudo kubeadm init --api-advertise-addresses=${ADDRESS} --token=b9e6bb.6746bcc9f8ef8267
+sudo kubeadm init --skip-preflight-checks --api-advertise-addresses=${ADDRESS} --token=b9e6bb.6746bcc9f8ef8267
 sleep 15
 sudo kubectl apply -f /vagrant/romana-kubeadm-vagrant.yml
 
