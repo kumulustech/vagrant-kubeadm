@@ -18,7 +18,7 @@ Vagrant.require_version ">= 1.7.4"
 # end
 
 # The number of nodes to provision
-$num_node = (ENV['NUM_NODES'] || 1).to_i
+$num_node = (ENV['NUM_NODES'] || 2).to_i
 
 # ip configuration
 $master_ip = ENV['MASTER_IP'] || "192.168.56.10"
