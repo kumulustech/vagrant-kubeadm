@@ -8,7 +8,7 @@ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
 echo 'deb https://apt.dockerproject.org/repo ubuntu-xenial main' | sudo tee /etc/apt/sources.list.d/docker.list
 echo 'deb http://apt.kubernetes.io/ kubernetes-xenial main' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
-sudo apt-get install docker-engine kubeadm kubectl kubernetes-cni -y
+sudo apt-get install docker-engine==1.12.6-0~ubuntu-xenial kubeadm kubectl kubernetes-cni -y
 sudo service docker start
 sudo groupadd docker
 sudo usermod -aG docker ubuntu 
@@ -29,5 +29,6 @@ up route add -net 10.96.0.0 netmask 255.240.0.0 gw 192.168.56.10
 EOF
 sudo ip route add 10.96.0.0/12 via 192.168.56.10
 
-sudo kubeadm join --skip-preflight-checks --token=b9e6bb.6746bcc9f8ef8267 192.168.56.10
+#sudo kubeadm join --skip-preflight-checks --token=b9e6bb.6746bcc9f8ef8267 192.168.56.10
+sudo kubeadm join --token=b9e6bb.6746bcc9f8ef8267 192.168.56.10
 
