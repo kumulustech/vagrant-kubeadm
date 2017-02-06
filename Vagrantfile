@@ -124,7 +124,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     end
   end
 
-  def customize_vm(config, vm_mem)
+  def customize_vm(config, vm_mem, vm_name)
 
     if $use_nfs then
       config.vm.synced_folder ".", "/vagrant", nfs: true
@@ -152,12 +152,19 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       # Use faster paravirtualized networking
       v.customize ["modifyvm", :id, "--nictype1", "virtio"]
       v.customize ["modifyvm", :id, "--nictype2", "virtio"]
+      if vm_name == 'master' then
+        unless File.exist?("#{vm_name}.vdi")
+          # , '--variant', 'Fixed' # or 'Dynamic(?)'
+          v.customize ['createhd', '--filename', "#{vm_name}.vdi", '--size', 20 * 1024]
+        end
+        v.customize ['storageattach', :id,  '--storagectl', 'SCSI', '--port', 2, '--device', 0, '--type', 'hdd', '--medium', "#{vm_name}.vdi"]
+      end
     end
   end
 
   # Kubernetes master
   config.vm.define "master" do |c|
-    customize_vm c, $vm_master_mem
+    customize_vm c, $vm_master_mem, "master"
     c.vm.provision "shell", run: "once", path: "kubeadm-master-ubuntu.sh"
     # config.vm.provision "ansible" do |a|
     #   a.playbook = "master.yml"
@@ -171,7 +178,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     node_vm_name = "node-#{n+1}"
 
     config.vm.define node_vm_name do |node|
-      customize_vm node, $vm_node_mem
+      customize_vm node, $vm_node_mem, node_vm_name
 
       node_ip = $node_ips[n]
       node.vm.provision "shell", run: "once", path: "kubeadm-node-ubuntu.sh"

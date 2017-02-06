@@ -1,3 +1,4 @@
 .vagrant
 .cachedir
 *log
+*vdi
