@@ -32,3 +32,12 @@ sudo kubeadm init --api-advertise-addresses=${ADDRESS} --token=b9e6bb.6746bcc9f8
 sleep 15
 sudo kubectl apply -f /vagrant/romana-kubeadm-vagrant.yml
 
+# Add storage on master and export via NFS
+apt-get install nfs-kernel-server nfs-common -y
+mkdir -p /var/nfs/general
+mkfs.ext4 -L nfs-general /dev/sdc
+echo 'LABEL=nfs-general ext4 defaults 0 0' >> /etc/fstab
+echo '/var/nfs/general *(rw,sync,no_subtree_check)' >> /etc/exports
+mount -a
+chown -R nobody.nogroup /var/nfs/general
+exportfs -a

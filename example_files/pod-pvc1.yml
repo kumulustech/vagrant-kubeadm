@@ -1,0 +1,19 @@
+kind: Pod
+apiVersion: v1
+metadata:
+  name: pod-pvc1
+spec:
+  containers:
+    - name: nginx-frontend
+      image: nginx
+      imagePullPolicy: Always
+      ports:
+      - containerPort: 80
+        protocol: TCP
+      volumeMounts:
+      - mountPath: "/usr/share/nginx/html"
+        name: pvc1
+  volumes:
+    - name: pvc1
+      persistentVolumeClaim:
+        claimName: claim1

@@ -1,0 +1,15 @@
+  apiVersion: v1
+  kind: PersistentVolume
+  metadata:
+    name: pv4
+    annotations:
+      volume.beta.kubernetes.io/storage-class: "slow"
+  spec:
+    capacity:
+      storage: 1Gi
+    accessModes:
+      - ReadWriteMany
+    persistentVolumeReclaimPolicy: Recycle
+    nfs:
+      path: /var/nfs/general/four
+      server: 192.168.56.10
