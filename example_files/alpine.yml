@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    run: alpine
+    app: os
+  name: alpine
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        run: alpine
+    spec:
+      containers:
+      - image: alpine:latest
+        name: alpine

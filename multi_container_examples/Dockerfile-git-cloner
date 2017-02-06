@@ -1,0 +1,7 @@
+FROM alpine:latest
+MAINTAINER rstarmer@gmail.com
+LABEL description='A git clone container that clones a repo passed in the HTTPS_REPO variable'
+ENV HTTPS_REPO=${HTTPS_REPO:-https://github.com/kumulustech/startbootstrap-new-age}
+RUN apk update && apk add git && mkdir /clone
+COPY clone.sh /root/clone.sh
+CMD /root/clone.sh

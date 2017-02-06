@@ -39,5 +39,6 @@ mkfs.ext4 -L nfs-general /dev/sdc
 echo 'LABEL=nfs-general ext4 defaults 0 0' >> /etc/fstab
 echo '/var/nfs/general *(rw,sync,no_subtree_check)' >> /etc/exports
 mount -a
+for n in one two three four; do mkdir /var/nfs/general/${n}; done
 chown -R nobody.nogroup /var/nfs/general
 exportfs -a

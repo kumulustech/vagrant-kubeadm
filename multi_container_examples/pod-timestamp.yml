@@ -1,0 +1,24 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: timestamp
+spec:
+  containers:
+  - image: nginx
+    imagePullPolicy: Always
+    name: nginx
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html
+      name: empty-volume
+  - image: rstarmer/timestamp
+    imagePullPolicy: Always
+    name: timestamp
+    volumeMounts:
+    - mountPath: /clone
+      name: empty-volume
+  volumes:
+  - name: empty-volume
+    emptyDir:
