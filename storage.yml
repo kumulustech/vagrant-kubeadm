@@ -1,0 +1,27 @@
+---
+- hosts: master
+  become: true
+  become_user: root
+  tasks:
+    - name: install required kernel service
+      apt: name=nfs-kernel-server state=latest
+    - name: mkfs.ext4 /dev/sdc
+      command: mkfs.ext4 /dev/sdc
+    - name: ensure mount directory exists
+      file: name=/var/nfs/general state=directory
+    - name: add mount to /etc/fstab
+      lineinfile: path=/etc/fstab line='LABEL=nfs-general /var/nfs/general ext4 defaults 0 0'
+    - name: mount nfs-general
+      command: mount -a
+    - name: change ownership of nfs-general
+      file: name=/var/nfs/general ownwer=nobody group=nogroup
+    - name: add nfs-general to exports
+      lineinfile: path=/etc/exports line='/var/nfs/general *(rw,sync,no_subtree_check)'
+    - name: export filesystems
+      command: exportfs -a
+- hosts: all
+  become: true
+  become_user: root
+  tasks:
+    - name: install client services
+      apt: name=nfs-common state=latest
