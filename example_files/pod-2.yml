@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-2
+  labels:
+    env: prod
+    tier: web
+spec:
+  containers:
+  - image: nginx
+    imagePullPolicy: Always
+    name: nginx
+    ports:
+    - containerPort: 80
+      protocol: TCP
+    volumeMounts:
+    - mountPath: /usr/share/nginx/html
+      name: vagrant-volume
+  volumes:
+  - name: vagrant-volume
+    hostPath:
+      path: /vagrant
