@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 sudo apt-get update
 sudo apt-get install apt-transport-https ca-certificates -y
 sudo apt-get install curl \
@@ -16,8 +17,8 @@ sudo add-apt-repository \
 #echo 'deb https://apt.dockerproject.org/repo ubuntu-xenial main' | sudo tee /etc/apt/sources.list.d/docker.list
 echo 'deb http://apt.kubernetes.io/ kubernetes-xenial main' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
-sudo apt-get install docker-engine=1.12.6-0~ubuntu-xenial -y
-#sudo apt-get install docker-engine -y
+#sudo apt-get install docker-engine=1.12.6-0~ubuntu-xenial -y
+sudo apt-get install docker-engine -y
 sudo apt-get install kubeadm kubectl kubernetes-cni -y
 sudo service docker start
 sudo groupadd docker
