@@ -20,7 +20,6 @@ sudo apt-get install python-pip -y
 sudo apt-get install joe -y
 sudo pip install --upgrade pip
 
-exit
 #Setup Kubernetes
 sudo apt-get install kubeadm=1.5.6* kubelet=1.5.6* kubectl=1.5.6* kubernetes-cni=0.5.1* -y
 ADDRESS="$(ip -4 addr show enp0s8 | grep "inet" | head -1 |awk '{print $2}' | cut -d/ -f1)"
