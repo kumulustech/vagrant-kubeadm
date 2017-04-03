@@ -15,3 +15,7 @@ spec:
    ports:
     - protocol: tcp
       port: 80
+    - protocol: icmp
+      port: 0
+    - protocol: icmp
+      port: 8
