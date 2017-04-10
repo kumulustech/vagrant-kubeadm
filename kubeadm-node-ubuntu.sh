@@ -21,7 +21,7 @@ sudo apt-get install joe -y
 sudo pip install --upgrade pip
 
 #Setup Kubernetes
-sudo apt-get install kubeadm=1.5.6* kubelet=1.5.6* kubectl=1.5.6* kubernetes-cni=0.5.1* -y
+sudo apt-get install kubeadm kubelet kubectl kubernetes-cni -y
 ADDRESS="$(ip -4 addr show enp0s8 | grep "inet" | head -1 |awk '{print $2}' | cut -d/ -f1)"
 HOSTNAME=`hostname`
 sudo sed -e "s/^.*${HOSTNAME}.*/${ADDRESS} ${HOSTNAME} ${HOSTNAME}.local/" -i /etc/hosts
@@ -36,7 +36,8 @@ sudo systemctl daemon-reload
 ## #up route add -net 10.96.0.0 netmask 255.240.0.0 gw 192.168.56.10
 ## #EOF
 ## #sudo ip route add 10.96.0.0/12 via 192.168.56.10
-
-sudo kubeadm join --token=b9e6bb.6746bcc9f8ef8267 192.168.56.10
+sudo mkdir /root/.kube/
+sudo cp /vagrant/admin.conf /root/.kube/config
+sudo kubeadm join --token=b9e6bb.6746bcc9f8ef8267 192.168.56.10:6443
 
 apt-get install nfs-common -y

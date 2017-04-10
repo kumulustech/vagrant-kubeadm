@@ -22,7 +22,7 @@ sudo apt-get install joe -y
 sudo -H pip install --upgrade pip
 
 #Setup Kubernetes
-sudo apt-get install kubeadm=1.5.6* kubelet=1.5.6* kubectl=1.5.6* kubernetes-cni=0.5.1* -y
+sudo apt-get install kubeadm kubelet kubectl kubernetes-cni -y
 ADDRESS="$(ip -4 addr show enp0s8 | grep "inet" | head -1 |awk '{print $2}' | cut -d/ -f1)"
 sudo sed -e "s/^.*master.*/${ADDRESS} master master.local/" -i /etc/hosts
 sudo sed -e '/^.*ubuntu-xenial.*/d' -i /etc/hosts
@@ -31,8 +31,11 @@ sudo sed -i -e 's/AUTHZ_ARGS=.*/AUTHZ_ARGS="/' /etc/systemd/system/kubelet.servi
 
 sudo systemctl daemon-reload
 
-sudo kubeadm init --use-kubernetes-version=v1.5.6 --api-advertise-addresses=${ADDRESS} --token=b9e6bb.6746bcc9f8ef8267
+sudo kubeadm init --apiserver-advertise-address=${ADDRESS} --token=b9e6bb.6746bcc9f8ef8267
 sleep 15
+sudo mkdir -p /root/.kube/
+sudo cp /etc/kubernetes/admin.conf /root/.kube/config
+sudo cp /etc/kubernetes/admin.conf /vagrant/
 sudo kubectl apply -f /vagrant/romana-kubeadm-vagrant.yml
 
 
