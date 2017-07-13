@@ -13,9 +13,5 @@ spec:
       matchLabels:
        romanaSegment: frontend
    ports:
-    - protocol: tcp
+    - protocol: TCP
       port: 80
-    - protocol: icmp
-      port: 0
-    - protocol: icmp
-      port: 8
