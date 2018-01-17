@@ -38,6 +38,6 @@ sudo systemctl daemon-reload
 ## #sudo ip route add 10.96.0.0/12 via 192.168.56.10
 sudo mkdir /root/.kube/
 sudo cp /vagrant/admin.conf /root/.kube/config
-sudo kubeadm join --token=b9e6bb.6746bcc9f8ef8267 192.168.56.10:6443
+sudo kubeadm join --token=b9e6bb.6746bcc9f8ef8267 192.168.56.10:6443 --discovery-token-unsafe-skip-ca-verification
 
 apt-get install nfs-common -y
