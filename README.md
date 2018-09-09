@@ -8,19 +8,22 @@ environment variable.
 
 To launch the environment, just do:
 
-  vagrant up
+  `vagrant up`
 
 Once the system has launched, you should be able to verify
-the kubernetes environment by logging into the master node
+the kubernetes environment by logging into the master node with:
 
-  vagrant ssh master
-  kubectl get nodes
+  `vagrant ssh master`
+  
+ Then:
+  
+  `kubectl get nodes`
 
 Examples for the KUB-100 class are in the example_files directory
 
 ======
- Copyright 2017 Kumulus Technologies
- Copyright 2017 Robert Starmer
+ Copyright 2017, 2018 Kumulus Technologies
+ Copyright 2017, 2018 Robert Starmer
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
