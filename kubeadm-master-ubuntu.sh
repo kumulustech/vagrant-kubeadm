@@ -13,7 +13,7 @@ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
 echo 'deb https://apt.dockerproject.org/repo ubuntu-xenial main' | sudo tee /etc/apt/sources.list.d/docker.list
 echo 'deb http://apt.kubernetes.io/ kubernetes-xenial main' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
-sudo apt-get install docker-engine=1.12* -y
+sudo apt-get install docker-engine -y
 sudo service docker start
 sudo groupadd docker
 sudo usermod -aG docker ubuntu
@@ -35,8 +35,11 @@ sudo kubeadm init --apiserver-advertise-address=${ADDRESS} --token=b9e6bb.6746bc
 sleep 15
 sudo mkdir -p /root/.kube/
 sudo cp /etc/kubernetes/admin.conf /root/.kube/config
+mkdir -p ~/.kube
+sudo cp /etc/kubernetes/admin.conf ~/.kube/config
 sudo cp /etc/kubernetes/admin.conf /vagrant/
-sudo kubectl apply -f /vagrant/romana-kubeadm-vagrant.yml
+
+#sudo kubectl apply -f /vagrant/romana-kubeadm-vagrant.yml
 
 
 # Add storage on master and export via NFS
