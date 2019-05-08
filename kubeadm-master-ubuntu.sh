@@ -48,7 +48,7 @@ sudo sed -i -e 's/AUTHZ_ARGS=.*/AUTHZ_ARGS="/' /etc/systemd/system/kubelet.servi
 
 sudo systemctl daemon-reload
 
-sudo kubeadm init --apiserver-advertise-address=${ADDRESS} --token=b9e6bb.6746bcc9f8ef8267 --pod-network-cidr=172.16.0.0/16
+sudo kubeadm init --apiserver-advertise-address=${ADDRESS} --token=b9e6bb.6746bcc9f8ef8267
 sleep 15
 sudo mkdir -p /root/.kube/
 sudo cp /etc/kubernetes/admin.conf /root/.kube/config
