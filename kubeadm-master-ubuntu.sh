@@ -48,7 +48,7 @@ sudo sed -i -e 's/AUTHZ_ARGS=.*/AUTHZ_ARGS="/' /etc/systemd/system/kubelet.servi
 
 sudo systemctl daemon-reload
 
-sudo kubeadm init --apiserver-advertise-address=${ADDRESS} --token=b9e6bb.6746bcc9f8ef8267
+sudo kubeadm init --apiserver-advertise-address=${ADDRESS} --token=b9e6bb.6746bcc9f8ef8267  --pod-network-cidr=192.168.0.0/16 
 sleep 15
 sudo mkdir -p /root/.kube/
 sudo cp /etc/kubernetes/admin.conf /root/.kube/config
@@ -57,10 +57,7 @@ sudo cp /etc/kubernetes/admin.conf ~vagrant/.kube/config
 sudo chown -R vagrant:vagrant ~vagrant/.kube
 sudo cp /etc/kubernetes/admin.conf /vagrant/
 
-sudo kubectl apply -f \
-https://docs.projectcalico.org/v3.6/getting-started/kubernetes/installation/hosted/kubernetes-datastore/calico-networking/1.7/calico.yaml
-#sudo kubectl apply -f /vagrant/romana-kubeadm-vagrant.yml
-
+kubectl apply -f https://docs.projectcalico.org/v3.7/manifests/calico.yaml
 
 # Add storage on master and export via NFS
 apt-get install nfs-kernel-server nfs-common -y

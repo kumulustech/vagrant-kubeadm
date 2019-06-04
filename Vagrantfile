@@ -21,8 +21,8 @@ Vagrant.require_version ">= 1.7.4"
 $num_node = (ENV['NUM_NODES'] || 2).to_i
 
 # ip configuration
-$master_ip = ENV['MASTER_IP'] || "192.168.56.10"
-$node_ip_base = ENV['NODE_IP_BASE'] || "192.168.56."
+$master_ip = ENV['MASTER_IP'] || "172.16.26.10"
+$node_ip_base = ENV['NODE_IP_BASE'] || "172.16.26."
 $node_ips = $num_node.times.collect { |n| $node_ip_base + "#{n+20}" }
 
 # Determine the OS platform to use
@@ -48,12 +48,12 @@ $use_rsync = ENV['KUBERNETES_VAGRANT_USE_RSYNC'] == 'true'
 $kube_provider_boxes = {
   :virtualbox => {
     'ubuntu' => {
-      :box_name => 'ubuntu/xenial64',
+      :box_name => 'ubuntu/bionic64',
     }
   },
   :libvirt => {
     'ubuntu' => {
-      :box_name => 'ubuntu/xenial64',
+      :box_name => 'ubuntu/bionic64',
     }
   },
 }
