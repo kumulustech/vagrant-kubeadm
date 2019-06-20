@@ -29,7 +29,8 @@ sudo apt-key adv \
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 sudo groupadd docker
 sudo usermod -aG docker vagrant
-sudo apt-get install python-pip -y
+#noninteractive mode on python-pip install stops interactive popup hanging script
+sudo DEBIAN_FRONTEND=noninteractive apt-get -yq install python-pip
 sudo apt-get install joe -y
 sudo -H pip install --upgrade pip
 
